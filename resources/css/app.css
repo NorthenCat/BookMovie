@@ -1,6 +1,8 @@
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 .search-box {
   @apply hidden absolute top-full left-0 w-full bg-white p-4;
@@ -9,8 +11,6 @@
 .search-icon.active+.search-box {
   @apply block;
 }
-
-@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
 
 * {
   box-sizing: border-box;

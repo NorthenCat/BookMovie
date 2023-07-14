@@ -22,6 +22,10 @@ Route::get('/', function () {
     return redirect()->route('movies');
 });
 
+Route::get('/terminal', function () {
+    return redirect()->route('movies');
+});
+
 Route::get('/login', function () {
     return view('login');
 })->name('login');
