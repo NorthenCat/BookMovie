@@ -1,64 +1,66 @@
 @extends ('main')
 
 @section('content')
-    <main class="bookPage p-10 w-full">
-        <div class="movie-container">
-            <div>
-                <label class="text-2xl">Theatre Movie</label>
-                <p id="movie" class="text-gray-400">{{ $movies->title }}</p>
-                <p class="text-gray-400">Age Rating : {{ $movies->age_rating }}</p>
-                <p class="text-gray-400">Ticket Price : Rp.{{ number_format($movies->ticket_price) }}</p>
-            </div>
+<main class="bookPage p-10 w-full">
+    <div class="movie-container">
+        <div>
+            <label class="text-2xl">Theatre Movie</label>
+            <p id="movie" class="text-gray-400">{{ $movies->title }}</p>
+            <p class="text-gray-400">Age Rating : {{ $movies->age_rating }}</p>
+            <p class="text-gray-400">Ticket Price : Rp.{{ number_format($movies->ticket_price) }}</p>
         </div>
+    </div>
 
-        <section id="bookTicket" class="">
-            <ul class="flex showcase">
-                <li>
-                    <div class="seat"></div>
-                    <small>N/A</small>
-                </li>
-                <li>
-                    <div class="seat selected"></div>
-                    <small>Selected</small>
-                </li>
-                <li>
-                    <div class="seat occupied"></div>
-                    <small>Occupied</small>
-                </li>
-            </ul>
-
-
-            <div class="container flex flex-col mx-auto">
-                <div class="screen"></div>
-                <form id="checkoutForm" action="{{ route('movies.checkout', $movies->id) }}" method="POST"
-                    class="text-center">
-                    @csrf
-                    <div class="flex flex-wrap text-white justify-center items-center my-4" id="checkboxgroup">
-                        @foreach ($seats as $seat)
-                            @if ($seat->is_booked)
-                                <div class="flex seat items-center justify-center occupied" style="color:white;"></div>
-                            @elseif (!$seat->is_booked)
-                                <label for="seat-{{ $seat->seat_id }}" class="seat-label">
-                                    <!-- setiap ngeklik ini -->
-                                    <div class="flex seat items-center justify-center">
-                                        <!-- nambahin class "selected"  -->
-                                        <input type="checkbox" name="selected_seats[]" value="{{ $seat->seat_id }}"
-                                            id="seat-{{ $seat->seat_id }}"
-                                            class="hidden w-4 h-4 mr-2 text-[#6feaf6] bg-gray-100 border-[#6feaf6] rounded focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">{{ $seat->seat_id }}
-                                    </div>
-                                </label>
-                            @endif
-                        @endforeach
-                    </div>
-
-                    <button id="continueBtn" disabled
-                        class="items-center justify-center mx-auto px-5 py-3 text-base font-medium text-white bg-red-400 border border-transparent rounded-md hover:bg-primary-700">
-                        Continue
-                    </button>
-        </section>
+    <section id="bookTicket" class="">
+        <ul class="flex showcase">
+            <li>
+                <div class="seat"></div>
+                <small>N/A</small>
+            </li>
+            <li>
+                <div class="seat selected"></div>
+                <small>Selected</small>
+            </li>
+            <li>
+                <div class="seat occupied"></div>
+                <small>Occupied</small>
+            </li>
+        </ul>
 
 
-        <section id="userForm" class="hidden mx-auto px-[500px] space-y-3">
+        <div class="container flex flex-col mx-auto">
+            <div class="screen"></div>
+            <form id="checkoutForm" action="{{ route('movies.checkout', $movies->id) }}" method="POST"
+                class="text-center">
+                @csrf
+                <div class="flex flex-wrap text-white justify-center items-center my-4" id="checkboxgroup">
+                    @foreach ($seats as $seat)
+                    @if ($seat->is_booked)
+                    <div class="flex seat items-center justify-center occupied" style="color:white;"></div>
+                    @elseif (!$seat->is_booked)
+                    <label for="seat-{{ $seat->seat_id }}" class="seat-label">
+                        <!-- setiap ngeklik ini -->
+                        <div class="flex seat items-center justify-center">
+                            <!-- nambahin class "selected"  -->
+                            <input type="checkbox" name="selected_seats[]" value="{{ $seat->seat_id }}"
+                                id="seat-{{ $seat->seat_id }}"
+                                class="hidden w-4 h-4 mr-2 text-[#6feaf6] bg-gray-100 border-[#6feaf6] rounded focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">{{
+                            $seat->seat_id }}
+                        </div>
+                    </label>
+                    @endif
+                    @endforeach
+                </div>
+
+                <button id="continueBtn" disabled
+                    class="items-center justify-center mx-auto px-5 py-3 text-base font-medium text-white bg-red-400 border border-transparent rounded-md hover:bg-primary-700">
+                    Continue
+                </button>
+    </section>
+
+
+    <div class="w-full mx-auto md:max-w-[300px]">
+        <section id="userForm" class="hidden mx-auto space-y-3">
             <h1 class="text-center text-4xl font-bold">Identity Form</h1>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-6 group">
@@ -96,13 +98,14 @@
             <button type="submit" id="checkoutBtn" disabled
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
         </section>
+    </div>
 
-        </form>
-        </div>
-    </main>
+    </form>
+    </div>
+</main>
 
-    <script>
-        // Reset checkbox values on page load
+<script>
+    // Reset checkbox values on page load
         window.addEventListener('load', function() {
             var checkboxes = document.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(function(checkbox) {
@@ -153,5 +156,5 @@
             bookTicket.classList.add('hidden');
             userForm.classList.remove('hidden');
         });
-    </script>
+</script>
 @endsection
